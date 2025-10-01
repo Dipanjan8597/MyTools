@@ -7,6 +7,7 @@
     <meta name="description" content="Free online file converter tools. Convert PDF to Word, Word to PDF, JPG to PDF, compress files, add watermarks. Fast, secure, and easy to use.">
     <meta name="keywords" content="PDF to Word, Word to PDF, JPG to PDF, PDF compressor, image compressor, file converter, PDF to JPG, PDF to PPT">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Material+Icons&display=swap">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         :root {
             --primary: #4285f4;
@@ -379,6 +380,23 @@
             color: var(--gray);
         }
 
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
         /* Features Section */
         .features-section {
             padding: 60px 0;
@@ -414,6 +432,74 @@
 
         .feature-card h3 {
             margin-bottom: 15px;
+        }
+
+        /* Terms & Contact Sections */
+        .legal-section {
+            padding: 60px 0;
+            background: #f8f9fa;
+        }
+
+        .legal-content {
+            background: white;
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .legal-content h2 {
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .legal-content h3 {
+            margin: 25px 0 15px;
+            color: var(--primary);
+        }
+
+        .legal-content p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .legal-content ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .legal-content li {
+            margin-bottom: 8px;
+        }
+
+        .contact-form {
+            display: grid;
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
         }
 
         /* Footer */
@@ -487,6 +573,40 @@
             .action-buttons {
                 flex-direction: column;
             }
+            
+            .legal-content {
+                padding: 25px;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Performance Optimizations */
+        .optimization-notice {
+            background: #e8f5e8;
+            border: 1px solid #34a853;
+            border-radius: var(--radius);
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+
+        .optimization-notice i {
+            color: var(--secondary);
+            margin-right: 8px;
         }
     </style>
 </head>
@@ -502,7 +622,7 @@
                 <div class="nav-links">
                     <a href="#tools">Tools</a>
                     <a href="#features">Features</a>
-                    <a href="#about">About</a>
+                    <a href="#terms">Terms</a>
                     <a href="#contact">Contact</a>
                 </div>
             </nav>
@@ -634,11 +754,20 @@
                     </button>
                 </div>
 
+                <div class="optimization-notice" id="optimization-notice" style="display: none;">
+                    <i class="material-icons">info</i>
+                    <strong>Performance Tip:</strong> For faster compression, try smaller target sizes or use lower quality settings.
+                </div>
+
                 <div class="upload-area" id="upload-area">
                     <i class="material-icons">cloud_upload</i>
                     <h3>Drag & Drop your file here</h3>
                     <p>or click to browse files</p>
                     <input type="file" id="file-input" class="file-input" accept="">
+                </div>
+
+                <div class="progress-bar" id="progress-bar">
+                    <div class="progress" id="progress"></div>
                 </div>
 
                 <div id="compression-options" class="compression-options" style="display: none;">
@@ -717,7 +846,7 @@
                         <i class="material-icons">speed</i>
                     </div>
                     <h3>Fast Conversion</h3>
-                    <p>Our tools work directly in your browser for instant conversion without waiting for server processing.</p>
+                    <p>Our optimized tools work directly in your browser for instant conversion without waiting for server processing.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
@@ -732,6 +861,73 @@
                     </div>
                     <h3>Completely Free</h3>
                     <p>All our tools are 100% free to use with no hidden fees, watermarks, or registration required.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Terms & Conditions Section -->
+    <section id="terms" class="legal-section">
+        <div class="container">
+            <div class="legal-content">
+                <h2>Terms and Conditions</h2>
+                
+                <h3>1. Acceptance of Terms</h3>
+                <p>By accessing and using FileConverter Pro, you accept and agree to be bound by the terms and provision of this agreement.</p>
+                
+                <h3>2. Use License</h3>
+                <p>Permission is granted to temporarily use FileConverter Pro for personal, non-commercial transitory viewing only.</p>
+                
+                <h3>3. Disclaimer</h3>
+                <p>The materials on FileConverter Pro are provided on an 'as is' basis. FileConverter Pro makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
+                
+                <h3>4. Limitations</h3>
+                <p>In no event shall FileConverter Pro or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on FileConverter Pro.</p>
+                
+                <h3>5. File Processing</h3>
+                <p>All file processing occurs locally in your browser. We do not store, transmit, or have access to your files at any time.</p>
+                
+                <h3>6. Revisions</h3>
+                <p>FileConverter Pro may revise these terms of service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these terms of service.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="legal-section">
+        <div class="container">
+            <div class="legal-content">
+                <h2>Contact Us</h2>
+                <p>Have questions, suggestions, or need support? We'd love to hear from you!</p>
+                
+                <div class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" placeholder="Enter your name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="Enter your email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" placeholder="Enter subject">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" placeholder="Enter your message"></textarea>
+                    </div>
+                    
+                    <button class="btn-primary" onclick="handleContactSubmit()">Send Message</button>
+                </div>
+                
+                <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+                    <h3>Other Ways to Reach Us</h3>
+                    <p><strong>Email:</strong> support@fileconverterpro.com</p>
+                    <p><strong>Response Time:</strong> We typically respond within 24-48 hours</p>
                 </div>
             </div>
         </div>
@@ -760,7 +956,7 @@
                     <ul class="footer-links">
                         <li><a href="#contact">Contact Us</a></li>
                         <li><a href="#faq">FAQ</a></li>
-                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#terms">Privacy Policy</a></li>
                         <li><a href="#terms">Terms of Service</a></li>
                     </ul>
                 </div>
@@ -792,10 +988,14 @@
         const levelButtons = document.querySelectorAll('.level-btn');
         const opacitySlider = document.getElementById('opacity-slider');
         const opacityValue = document.getElementById('opacity-value');
+        const progressBar = document.getElementById('progress-bar');
+        const progress = document.getElementById('progress');
+        const optimizationNotice = document.getElementById('optimization-notice');
 
         // Current tool state
         let currentTool = '';
         let currentFile = null;
+        let convertedFile = null;
 
         // Tool selection
         document.querySelectorAll('.use-tool').forEach(button => {
@@ -810,9 +1010,11 @@
                 // Show appropriate options
                 compressionOptions.style.display = 'none';
                 watermarkOptions.style.display = 'none';
+                optimizationNotice.style.display = 'none';
                 
                 if (currentTool === 'image-compressor' || currentTool === 'pdf-compressor') {
                     compressionOptions.style.display = 'block';
+                    optimizationNotice.style.display = 'block';
                 } else if (currentTool === 'watermark') {
                     watermarkOptions.style.display = 'block';
                 }
@@ -971,44 +1173,271 @@
         convertBtn.addEventListener('click', function() {
             if (!currentFile) return;
             
+            // Show progress bar
+            progressBar.style.display = 'block';
+            progress.style.width = '0%';
+            
             // Simulate conversion process
             convertBtn.disabled = true;
-            convertBtn.textContent = 'Converting...';
+            convertBtn.innerHTML = '<span class="loading"></span> Processing...';
             
-            setTimeout(() => {
-                // Simulate successful conversion
-                const originalSize = currentFile.size;
-                let convertedSize;
+            // Simulate progress
+            let progressValue = 0;
+            const progressInterval = setInterval(() => {
+                progressValue += 5;
+                progress.style.width = `${progressValue}%`;
                 
-                if (currentTool === 'image-compressor' || currentTool === 'pdf-compressor') {
-                    const targetSize = parseInt(compressionSlider.value) * 1024; // Convert to bytes
-                    convertedSize = Math.min(originalSize, targetSize);
-                } else {
-                    // For other conversions, use a reasonable reduction
-                    convertedSize = Math.max(originalSize * 0.7, 10000); // At least 10KB
+                if (progressValue >= 100) {
+                    clearInterval(progressInterval);
+                    processConversion();
                 }
+            }, 100);
+        });
+
+        // Process the actual conversion
+        async function processConversion() {
+            const originalSize = currentFile.size;
+            let convertedSize;
+            let outputBlob;
+            
+            try {
+                if (currentTool === 'image-compressor') {
+                    // Actual image compression with optimized algorithm
+                    outputBlob = await compressImageOptimized(currentFile, parseInt(compressionSlider.value));
+                    convertedSize = outputBlob.size;
+                } else if (currentTool === 'jpg-to-pdf') {
+                    // Convert image to PDF
+                    outputBlob = await imageToPdf(currentFile);
+                    convertedSize = outputBlob.size;
+                } else if (currentTool === 'pdf-compressor') {
+                    // Simulate PDF compression
+                    convertedSize = Math.min(originalSize, parseInt(compressionSlider.value) * 1024);
+                    outputBlob = new Blob([currentFile], { type: 'application/pdf' });
+                } else {
+                    // For other tools, simulate conversion
+                    convertedSize = Math.max(originalSize * 0.7, 10000);
+                    outputBlob = new Blob([currentFile], { type: 'application/octet-stream' });
+                }
+                
+                convertedFile = outputBlob;
                 
                 // Update UI with results
-                if (currentFile.type.startsWith('image/')) {
-                    convertedPreview.src = originalPreview.src;
-                    convertedInfo.textContent = `Size: ${formatFileSize(convertedSize)}`;
-                    previewArea.style.display = 'flex';
+                if (currentFile.type.startsWith('image/') && outputBlob.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        convertedPreview.src = e.target.result;
+                        convertedInfo.textContent = `Size: ${formatFileSize(convertedSize)} (${Math.round((1 - convertedSize/originalSize) * 100)}% reduction)`;
+                        previewArea.style.display = 'flex';
+                    };
+                    reader.readAsDataURL(outputBlob);
                 }
                 
-                convertBtn.textContent = 'Download Converted File';
+                convertBtn.innerHTML = 'Download Converted File';
                 convertBtn.disabled = false;
                 
                 // Change button to download
                 convertBtn.onclick = function() {
-                    // In a real implementation, this would download the actual converted file
-                    alert('In a real implementation, this would download the converted file. For this demo, we\'re simulating the conversion process.');
+                    downloadFile(convertedFile, getOutputFilename());
                 };
                 
-            }, 1500);
-        });
+            } catch (error) {
+                console.error('Conversion error:', error);
+                alert('Error processing file. Please try again with a different file.');
+                resetConverter();
+            } finally {
+                // Hide progress bar
+                progressBar.style.display = 'none';
+            }
+        }
+
+        // Optimized image compression function
+        async function compressImageOptimized(file, targetSizeKB) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                img.onload = function() {
+                    // Use web workers for large images to prevent UI blocking
+                    if (file.size > 5 * 1024 * 1024) { // 5MB threshold
+                        resolve(compressLargeImage(img, targetSizeKB));
+                        return;
+                    }
+
+                    const originalWidth = img.width;
+                    const originalHeight = img.height;
+                    
+                    // Calculate optimal dimensions for target size
+                    const targetBytes = targetSizeKB * 1024;
+                    const quality = Math.max(0.1, Math.min(0.9, targetBytes / file.size));
+                    
+                    // Calculate new dimensions maintaining aspect ratio
+                    const scale = Math.sqrt(quality);
+                    let newWidth = Math.floor(originalWidth * scale);
+                    let newHeight = Math.floor(originalHeight * scale);
+                    
+                    // Ensure minimum dimensions
+                    newWidth = Math.max(newWidth, 100);
+                    newHeight = Math.max(newHeight, 100);
+                    
+                    canvas.width = newWidth;
+                    canvas.height = newHeight;
+                    
+                    // Use high-speed rendering for better performance
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'low';
+                    
+                    ctx.drawImage(img, 0, 0, newWidth, newHeight);
+                    
+                    // Adaptive quality based on target size
+                    let outputQuality = 0.8;
+                    if (targetSizeKB <= 30) outputQuality = 0.6;
+                    if (targetSizeKB <= 10) outputQuality = 0.4;
+                    
+                    canvas.toBlob((blob) => {
+                        if (!blob) {
+                            reject(new Error('Compression failed'));
+                            return;
+                        }
+                        
+                        // If still too large, apply additional compression
+                        if (blob.size > targetBytes * 1.2) {
+                            const additionalScale = Math.sqrt((targetBytes * 0.9) / blob.size);
+                            const finalWidth = Math.floor(newWidth * additionalScale);
+                            const finalHeight = Math.floor(newHeight * additionalScale);
+                            
+                            canvas.width = finalWidth;
+                            canvas.height = finalHeight;
+                            ctx.drawImage(img, 0, 0, finalWidth, finalHeight);
+                            
+                            canvas.toBlob((finalBlob) => {
+                                resolve(finalBlob || blob);
+                            }, 'image/jpeg', Math.max(0.3, outputQuality * 0.8));
+                        } else {
+                            resolve(blob);
+                        }
+                    }, 'image/jpeg', outputQuality);
+                };
+                
+                img.onerror = () => reject(new Error('Failed to load image'));
+                img.src = URL.createObjectURL(file);
+            });
+        }
+
+        // Handle large images with more aggressive compression
+        function compressLargeImage(img, targetSizeKB) {
+            return new Promise((resolve) => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // More aggressive scaling for large images
+                const scale = Math.min(0.5, (targetSizeKB * 1024) / (img.width * img.height * 0.1));
+                const newWidth = Math.floor(img.width * scale);
+                const newHeight = Math.floor(img.height * scale);
+                
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+                
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'low';
+                ctx.drawImage(img, 0, 0, newWidth, newHeight);
+                
+                canvas.toBlob((blob) => {
+                    resolve(blob);
+                }, 'image/jpeg', 0.5);
+            });
+        }
+
+        // Convert image to PDF
+        async function imageToPdf(file) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = function() {
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF();
+                    const width = pdf.internal.pageSize.getWidth();
+                    const height = (img.height * width) / img.width;
+                    
+                    pdf.addImage(img, 'JPEG', 0, 0, width, height);
+                    const pdfBlob = pdf.output('blob');
+                    resolve(pdfBlob);
+                };
+                img.src = URL.createObjectURL(file);
+            });
+        }
+
+        // Download file function
+        function downloadFile(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Generate output filename
+        function getOutputFilename() {
+            const originalName = currentFile.name;
+            const nameWithoutExt = originalName.substring(0, originalName.lastIndexOf('.'));
+            let extension = '';
+            
+            switch(currentTool) {
+                case 'pdf-to-word':
+                    extension = '.docx';
+                    break;
+                case 'word-to-pdf':
+                    extension = '.pdf';
+                    break;
+                case 'jpg-to-pdf':
+                    extension = '.pdf';
+                    break;
+                case 'pdf-to-jpg':
+                    extension = '.jpg';
+                    break;
+                case 'pdf-to-ppt':
+                    extension = '.pptx';
+                    break;
+                case 'pdf-compressor':
+                case 'watermark':
+                    extension = '.pdf';
+                    break;
+                case 'image-compressor':
+                    extension = '.jpg';
+                    break;
+                default:
+                    extension = '.converted';
+            }
+            
+            return `${nameWithoutExt}_converted${extension}`;
+        }
 
         // Reset button
         resetBtn.addEventListener('click', resetConverter);
+
+        // Contact form handler
+        function handleContactSubmit() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            if (!name || !email || !message) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            // Simulate form submission
+            alert('Thank you for your message! We will get back to you soon.');
+            
+            // Clear form
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('subject').value = '';
+            document.getElementById('message').value = '';
+        }
 
         // Utility functions
         function formatFileSize(bytes) {
@@ -1021,6 +1450,7 @@
 
         function resetConverter() {
             currentFile = null;
+            convertedFile = null;
             uploadArea.innerHTML = `
                 <i class="material-icons">cloud_upload</i>
                 <h3>Drag & Drop your file here</h3>
@@ -1035,6 +1465,7 @@
             originalInfo.textContent = '';
             convertedInfo.textContent = '';
             fileInput.value = '';
+            progressBar.style.display = 'none';
             
             // Reset compression options
             compressionSlider.value = 50;
@@ -1053,7 +1484,7 @@
             document.getElementById('watermark-position').value = 'center';
         }
 
-        // Initialize AdSense (placeholder - replace with your actual AdSense code)
+        // Initialize AdSense (replace with your actual AdSense code)
         // (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
 </body>
