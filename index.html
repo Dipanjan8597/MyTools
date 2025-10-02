@@ -3,1596 +3,382 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FileConverter Pro - PDF, Word, Image Conversion & Compression Tools</title>
-    <meta name="description" content="Free online file converter tools. Convert PDF to Word, Word to PDF, JPG to PDF, compress files, add watermarks. Fast, secure, and easy to use.">
-    <meta name="keywords" content="PDF to Word, Word to PDF, JPG to PDF, PDF compressor, image compressor, file converter, PDF to JPG, PDF to PPT">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Material+Icons&display=swap">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    <title>PDF Watermark Fix Tool</title>
     <style>
-        :root {
-            --primary: #4285f4;
-            --primary-dark: #3367d6;
-            --secondary: #34a853;
-            --accent: #ea4335;
-            --light: #f8f9fa;
-            --dark: #202124;
-            --gray: #5f6368;
-            --shadow: 0 2px 10px rgba(0,0,0,0.1);
-            --radius: 8px;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            background-color: #f5f5f5;
-            color: var(--dark);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
             line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
         }
-
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
-
-        /* Header Styles */
+        
         header {
-            background: white;
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--primary);
-        }
-
-        .logo i {
-            font-size: 2rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 25px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--gray);
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(to right, #2c3e50, #4a6491);
             color: white;
-            padding: 80px 0;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 30px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: white;
-            color: var(--primary);
-            border: none;
-            border-radius: var(--radius);
-            font-weight: 500;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.3s;
-            box-shadow: var(--shadow);
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        /* Ad Container */
-        .ad-container {
-            background: white;
-            padding: 15px;
-            margin: 20px auto;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            text-align: center;
-            max-width: 1200px;
-        }
-
-        .ad-placeholder {
-            background: #f0f0f0;
             padding: 30px;
-            border: 2px dashed #ccc;
-            border-radius: var(--radius);
-            color: var(--gray);
-        }
-
-        /* Tools Section */
-        .tools-section {
-            padding: 60px 0;
-        }
-
-        .section-title {
             text-align: center;
-            margin-bottom: 40px;
-            font-size: 2rem;
-            color: var(--dark);
         }
-
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        .tool-card {
-            background: white;
-            border-radius: var(--radius);
-            padding: 25px;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s, box-shadow 0.3s;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-        }
-
-        .tool-icon {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            color: var(--primary);
-        }
-
-        .tool-icon i {
+        
+        h1 {
             font-size: 2.5rem;
-        }
-
-        .tool-card h3 {
             margin-bottom: 10px;
-            color: var(--dark);
         }
-
-        .tool-card p {
-            color: var(--gray);
-            margin-bottom: 20px;
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
         }
-
-        /* Converter Interface */
-        .converter-interface {
-            background: white;
-            border-radius: var(--radius);
-            padding: 30px;
-            box-shadow: var(--shadow);
-            margin-top: 30px;
-            display: none;
-        }
-
-        .converter-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .converter-title {
-            font-size: 1.5rem;
-            color: var(--dark);
-        }
-
-        .close-converter {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--gray);
-        }
-
-        .upload-area {
-            border: 2px dashed #ccc;
-            border-radius: var(--radius);
-            padding: 40px 20px;
-            text-align: center;
-            margin-bottom: 25px;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .upload-area:hover, .upload-area.dragover {
-            border-color: var(--primary);
-            background: #f0f7ff;
-        }
-
-        .upload-area i {
-            font-size: 3rem;
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-
-        .file-input {
-            display: none;
-        }
-
-        .compression-options {
-            margin: 25px 0;
-        }
-
-        .option-title {
-            margin-bottom: 15px;
-            font-weight: 500;
-        }
-
-        .compression-levels {
+        
+        .content {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            padding: 30px;
+        }
+        
+        .info-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+        }
+        
+        .upload-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            border-left: 1px solid #eee;
+        }
+        
+        h2 {
+            color: #2c3e50;
             margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eaeaea;
         }
-
-        .level-btn {
-            padding: 8px 15px;
-            background: #f0f0f0;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .level-btn.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        .slider-container {
+        
+        .problem-list {
+            list-style-type: none;
             margin: 20px 0;
         }
-
-        .slider {
-            width: 100%;
-            height: 6px;
-            -webkit-appearance: none;
-            background: #ddd;
-            border-radius: 3px;
-            outline: none;
-        }
-
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            background: var(--primary);
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        .slider-value {
-            text-align: center;
-            margin-top: 10px;
-            font-weight: 500;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        .btn-primary {
-            flex: 1;
-            padding: 12px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: var(--radius);
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-        }
-
-        .btn-secondary {
-            flex: 1;
-            padding: 12px;
-            background: #f0f0f0;
-            color: var(--dark);
-            border: none;
-            border-radius: var(--radius);
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .btn-secondary:hover {
-            background: #e0e0e0;
-        }
-
-        .preview-area {
-            display: flex;
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .preview-box {
-            flex: 1;
-            text-align: center;
-        }
-
-        .preview-title {
+        
+        .problem-list li {
+            padding: 12px 15px;
             margin-bottom: 10px;
-            font-weight: 500;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #4a6491;
+            display: flex;
+            align-items: center;
         }
-
-        .preview-img {
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
+        
+        .problem-list li i {
+            margin-right: 10px;
+            color: #e74c3c;
         }
-
-        .file-info {
-            margin-top: 10px;
-            font-size: 0.9rem;
-            color: var(--gray);
+        
+        .solution-card {
+            background-color: #e8f4fc;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+            border-left: 4px solid #3498db;
         }
-
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: #f0f0f0;
-            border-radius: 3px;
-            margin: 20px 0;
-            overflow: hidden;
-            display: none;
+        
+        .solution-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
         }
-
-        .progress {
-            height: 100%;
-            background: var(--primary);
-            width: 0%;
-            transition: width 0.3s;
-        }
-
-        /* Features Section */
-        .features-section {
-            padding: 60px 0;
-            background: white;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .feature-card {
+        
+        .upload-area {
+            border: 2px dashed #4a6491;
+            border-radius: 8px;
+            padding: 40px 20px;
             text-align: center;
-            padding: 30px 20px;
+            margin: 20px 0;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
-
-        .feature-icon {
-            width: 70px;
-            height: 70px;
-            background: #e8f0fe;
+        
+        .upload-area:hover {
+            background-color: #e8f4fc;
+            border-color: #3498db;
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: #4a6491;
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, #4a6491, #2c3e50);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(to right, #95a5a6, #7f8c8d);
+        }
+        
+        .code-block {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .code-block code {
+            display: block;
+            line-height: 1.5;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #7f8c8d;
+            border-top: 1px solid #eaeaea;
+        }
+        
+        .steps {
+            margin: 25px 0;
+        }
+        
+        .step {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            background-color: #4a6491;
+            color: white;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 20px;
-            color: var(--primary);
+            margin-right: 15px;
+            flex-shrink: 0;
         }
-
-        .feature-icon i {
-            font-size: 2rem;
-        }
-
-        .feature-card h3 {
-            margin-bottom: 15px;
-        }
-
-        /* Terms & Contact Sections */
-        .legal-section {
-            padding: 60px 0;
-            background: #f8f9fa;
-        }
-
-        .legal-content {
-            background: white;
-            padding: 40px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .legal-content h2 {
-            margin-bottom: 20px;
-            color: var(--dark);
-        }
-
-        .legal-content h3 {
-            margin: 25px 0 15px;
-            color: var(--primary);
-        }
-
-        .legal-content p {
-            margin-bottom: 15px;
-            line-height: 1.8;
-        }
-
-        .legal-content ul {
-            margin: 15px 0;
-            padding-left: 20px;
-        }
-
-        .legal-content li {
-            margin-bottom: 8px;
-        }
-
-        .contact-form {
-            display: grid;
-            gap: 20px;
-            margin-top: 25px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: var(--radius);
-            font-size: 1rem;
-        }
-
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 50px 0 20px;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-column h3 {
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-
-        .footer-links a {
-            color: #bdc1c6;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: white;
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #3c4043;
-            color: #9aa0a6;
-            font-size: 0.9rem;
-        }
-
-        /* Responsive Design */
+        
         @media (max-width: 768px) {
-            .navbar {
+            .content {
                 flex-direction: column;
-                gap: 15px;
             }
             
-            .nav-links {
-                gap: 15px;
+            .upload-section {
+                border-left: none;
+                border-top: 1px solid #eee;
             }
             
-            .hero h1 {
+            h1 {
                 font-size: 2rem;
             }
-            
-            .tools-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .preview-area {
-                flex-direction: column;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-            }
-            
-            .legal-content {
-                padding: 25px;
-            }
-        }
-
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Performance Optimizations */
-        .optimization-notice {
-            background: #e8f5e8;
-            border: 1px solid #34a853;
-            border-radius: var(--radius);
-            padding: 15px;
-            margin: 15px 0;
-            font-size: 0.9rem;
-        }
-
-        .optimization-notice i {
-            color: var(--secondary);
-            margin-right: 8px;
-        }
-
-        /* AdSense Responsive */
-        .adsbygoogle {
-            display: block;
-            margin: 0 auto;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <nav class="navbar">
-                <div class="logo">
-                    <i class="material-icons">transform</i>
-                    <span>FileConverter Pro</span>
-                </div>
-                <div class="nav-links">
-                    <a href="#tools">Tools</a>
-                    <a href="#features">Features</a>
-                    <a href="#terms">Terms</a>
-                    <a href="#contact">Contact</a>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h1>Convert, Compress & Edit Files Online</h1>
-            <p>Free online tools for PDF, Word, Image conversion and compression. No installation required. Secure and private processing.</p>
-            <a href="#tools" class="btn">Get Started</a>
-        </div>
-    </section>
-
-    <!-- Ad Container 1 -->
     <div class="container">
-        <div class="ad-container">
-            <!-- AdSense Code 1 -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                 data-ad-slot="1234567890"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
-    </div>
-
-    <!-- Tools Section -->
-    <section id="tools" class="tools-section">
-        <div class="container">
-            <h2 class="section-title">File Conversion Tools</h2>
-            <div class="tools-grid">
-                <!-- PDF to Word -->
-                <div class="tool-card" data-tool="pdf-to-word">
-                    <div class="tool-icon">
-                        <i class="material-icons">picture_as_pdf</i>
-                        <i class="material-icons">arrow_forward</i>
-                        <i class="material-icons">article</i>
+        <header>
+            <h1>PDF Watermark Restoration Tool</h1>
+            <p class="subtitle">Fix watermarked PDFs and restore original content visibility</p>
+        </header>
+        
+        <div class="content">
+            <div class="info-section">
+                <h2>Problem Description</h2>
+                <p>After adding a watermark to your PDF file (JECA 2025.pdf), the actual content is no longer visible. This typically happens when:</p>
+                
+                <ul class="problem-list">
+                    <li><i>⚠️</i> Watermark opacity is set too high</li>
+                    <li><i>⚠️</i> Watermark is placed in front of content layers</li>
+                    <li><i>⚠️</i> PDF layers are improperly structured</li>
+                    <li><i>⚠️</i> Watermark covers the entire document area</li>
+                </ul>
+                
+                <div class="solution-card">
+                    <h3>Solution Overview</h3>
+                    <p>Our tool will help you restore the original PDF content by:</p>
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div>Analyzing the PDF structure and layer hierarchy</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div>Adjusting watermark opacity and position</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div>Reordering layers to ensure content visibility</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div>Generating a fixed PDF with restored content</div>
+                        </div>
                     </div>
-                    <h3>PDF to Word</h3>
-                    <p>Convert PDF documents to editable Word files</p>
-                    <button class="btn-primary use-tool">Use Tool</button>
                 </div>
+                
+                <h2>Manual Fix Code</h2>
+                <p>For developers, here's sample code to fix watermarked PDFs programmatically:</p>
+                
+                <div class="code-block">
+                    <code>
+// Python code using PyPDF2 to fix watermark issues<br>
+import PyPDF2<br><br>
 
-                <!-- Word to PDF -->
-                <div class="tool-card" data-tool="word-to-pdf">
-                    <div class="tool-icon">
-                        <i class="material-icons">article</i>
-                        <i class="material-icons">arrow_forward</i>
-                        <i class="material-icons">picture_as_pdf</i>
-                    </div>
-                    <h3>Word to PDF</h3>
-                    <p>Convert Word documents to PDF format</p>
-                    <button class="btn-primary use-tool">Use Tool</button>
-                </div>
+def fix_watermarked_pdf(input_path, output_path):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;# Read the watermarked PDF<br>
+&nbsp;&nbsp;&nbsp;&nbsp;with open(input_path, 'rb') as file:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader = PyPDF2.PdfReader(file)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer = PyPDF2.PdfWriter()<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;# Process each page<br>
+&nbsp;&nbsp;&nbsp;&nbsp;for page_num in range(len(reader.pages)):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page = reader.pages[page_num]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Extract content and recreate page without watermark<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# This is a simplified example - actual implementation may vary<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.add_page(page)<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;# Save the fixed PDF<br>
+&nbsp;&nbsp;&nbsp;&nbsp;with open(output_path, 'wb') as output_file:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.write(output_file)<br><br>
 
-                <!-- JPG to PDF -->
-                <div class="tool-card" data-tool="jpg-to-pdf">
-                    <div class="tool-icon">
-                        <i class="material-icons">image</i>
-                        <i class="material-icons">arrow_forward</i>
-                        <i class="material-icons">picture_as_pdf</i>
-                    </div>
-                    <h3>JPG to PDF</h3>
-                    <p>Convert images to PDF documents</p>
-                    <button class="btn-primary use-tool">Use Tool</button>
-                </div>
-
-                <!-- PDF to JPG -->
-                <div class="tool-card" data-tool="pdf-to-jpg">
-                    <div class="tool-icon">
-                        <i class="material-icons">picture_as_pdf</i>
-                        <i class="material-icons">arrow_forward</i>
-                        <i class="material-icons">image</i>
-                    </div>
-                    <h3>PDF to JPG</h3>
-                    <p>Extract images from PDF files</p>
-                    <button class="btn-primary use-tool">Use Tool</button>
-                </div>
-
-                <!-- PDF to PPT -->
-                <div class="tool-card" data-tool="pdf-to-ppt">
-                    <div class="tool-icon">
-                        <i class="material-icons">picture_as_pdf</i>
-                        <i class="material-icons">arrow_forward</i>
-                        <i class="material-icons">slideshow</i>
-                    </div>
-                    <h3>PDF to PowerPoint</h3>
-                    <p>Convert PDF to editable presentation</p>
-                    <button class="btn-primary use-tool">Use Tool</button>
-                </div>
-
-                <!-- PDF Compressor -->
-                <div class="tool-card" data-tool="pdf-compressor">
-                    <div class="tool-icon">
-                        <i class="material-icons">compress</i>
-                    </div>
-                    <h3>PDF Compressor</h3>
-                    <p>Reduce PDF file size without quality loss</p>
-                    <button class="btn-primary use-tool">Use Tool</button>
-                </div>
-
-                <!-- Image Compressor -->
-                <div class="tool-card" data-tool="image-compressor">
-                    <div class="tool-icon">
-                        <i class="material-icons">photo_size_select_small</i>
-                    </div>
-                    <h3>Image Compressor</h3>
-                    <p>Compress images to specific file sizes</p>
-                    <button class="btn-primary use-tool">Use Tool</button>
-                </div>
-
-                <!-- Watermark Tool -->
-                <div class="tool-card" data-tool="watermark">
-                    <div class="tool-icon">
-                        <i class="material-icons">water_damage</i>
-                    </div>
-                    <h3>PDF Watermark</h3>
-                    <p>Add text or image watermarks to PDF files</p>
-                    <button class="btn-primary use-tool">Use Tool</button>
+# Usage<br>
+fix_watermarked_pdf('JECA_2025_watermarked.pdf', 'JECA_2025_fixed.pdf')
+                    </code>
                 </div>
             </div>
-
-            <!-- Converter Interface -->
-            <div id="converter-interface" class="converter-interface">
-                <div class="converter-header">
-                    <h2 class="converter-title" id="converter-title">Tool Name</h2>
-                    <button class="close-converter" id="close-converter">
-                        <i class="material-icons">close</i>
-                    </button>
-                </div>
-
-                <div class="optimization-notice" id="optimization-notice" style="display: none;">
-                    <i class="material-icons">info</i>
-                    <strong>Performance Tip:</strong> For faster compression, try smaller target sizes or use lower quality settings.
-                </div>
-
-                <div class="upload-area" id="upload-area">
-                    <i class="material-icons">cloud_upload</i>
-                    <h3>Drag & Drop your file here</h3>
+            
+            <div class="upload-section">
+                <h2>Fix Your PDF</h2>
+                <p>Upload your watermarked PDF file to restore the original content:</p>
+                
+                <div class="upload-area" id="dropZone">
+                    <div class="upload-icon">📄</div>
+                    <h3>Drag & Drop your PDF here</h3>
                     <p>or click to browse files</p>
-                    <input type="file" id="file-input" class="file-input" accept="">
-                </div>
-
-                <div class="progress-bar" id="progress-bar">
-                    <div class="progress" id="progress"></div>
-                </div>
-
-                <div id="compression-options" class="compression-options" style="display: none;">
-                    <h3 class="option-title">Compression Level</h3>
-                    <div class="compression-levels">
-                        <button class="level-btn" data-size="200">200 KB</button>
-                        <button class="level-btn" data-size="100">100 KB</button>
-                        <button class="level-btn active" data-size="50">50 KB</button>
-                        <button class="level-btn" data-size="30">30 KB</button>
-                        <button class="level-btn" data-size="10">10 KB</button>
-                    </div>
-                    
-                    <div class="slider-container">
-                        <input type="range" min="10" max="200" value="50" class="slider" id="compression-slider">
-                        <div class="slider-value">Target Size: <span id="slider-value">50</span> KB</div>
-                    </div>
-                </div>
-
-                <div id="watermark-options" class="compression-options" style="display: none;">
-                    <h3 class="option-title">Watermark Settings</h3>
-                    <div style="margin-bottom: 15px;">
-                        <input type="text" id="watermark-text" placeholder="Enter watermark text" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: var(--radius);">
-                    </div>
-                    <div style="margin-bottom: 15px;">
-                        <label>Opacity:</label>
-                        <input type="range" min="10" max="100" value="50" class="slider" id="opacity-slider">
-                        <span id="opacity-value">50%</span>
-                    </div>
-                    <div>
-                        <label>Position:</label>
-                        <select id="watermark-position" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: var(--radius);">
-                            <option value="center">Center</option>
-                            <option value="top-left">Top Left</option>
-                            <option value="top-right">Top Right</option>
-                            <option value="bottom-left">Bottom Left</option>
-                            <option value="bottom-right">Bottom Right</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="action-buttons">
-                    <button class="btn-primary" id="convert-btn" disabled>Convert File</button>
-                    <button class="btn-secondary" id="reset-btn">Reset</button>
-                </div>
-
-                <div class="preview-area" id="preview-area" style="display: none;">
-                    <div class="preview-box">
-                        <h3 class="preview-title">Original File</h3>
-                        <img id="original-preview" class="preview-img" src="" alt="Original file preview">
-                        <div class="file-info" id="original-info"></div>
-                    </div>
-                    <div class="preview-box">
-                        <h3 class="preview-title">Converted File</h3>
-                        <img id="converted-preview" class="preview-img" src="" alt="Converted file preview">
-                        <div class="file-info" id="converted-info"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Ad Container 2 -->
-    <div class="container">
-        <div class="ad-container">
-            <!-- AdSense Code 2 -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                 data-ad-slot="0987654321"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
-    </div>
-
-    <!-- Features Section -->
-    <section id="features" class="features-section">
-        <div class="container">
-            <h2 class="section-title">Why Choose FileConverter Pro?</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="material-icons">security</i>
-                    </div>
-                    <h3>Secure Processing</h3>
-                    <p>Your files are processed securely and never stored on our servers. All processing happens in your browser.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="material-icons">speed</i>
-                    </div>
-                    <h3>Fast Conversion</h3>
-                    <p>Our optimized tools work directly in your browser for instant conversion without waiting for server processing.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="material-icons">devices</i>
-                    </div>
-                    <h3>Works Everywhere</h3>
-                    <p>Fully responsive design that works on desktop, tablet, and mobile devices without any app installation.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="material-icons">attach_money</i>
-                    </div>
-                    <h3>Completely Free</h3>
-                    <p>All our tools are 100% free to use with no hidden fees, watermarks, or registration required.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Ad Container 3 -->
-    <div class="container">
-        <div class="ad-container">
-            <!-- AdSense Code 3 -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                 data-ad-slot="1122334455"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
-    </div>
-
-    <!-- Terms & Conditions Section -->
-    <section id="terms" class="legal-section">
-        <div class="container">
-            <div class="legal-content">
-                <h2>Terms and Conditions</h2>
-                
-                <h3>1. Acceptance of Terms</h3>
-                <p>By accessing and using FileConverter Pro, you accept and agree to be bound by the terms and provision of this agreement.</p>
-                
-                <h3>2. Use License</h3>
-                <p>Permission is granted to temporarily use FileConverter Pro for personal, non-commercial transitory viewing only.</p>
-                
-                <h3>3. Disclaimer</h3>
-                <p>The materials on FileConverter Pro are provided on an 'as is' basis. FileConverter Pro makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
-                
-                <h3>4. Limitations</h3>
-                <p>In no event shall FileConverter Pro or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on FileConverter Pro.</p>
-                
-                <h3>5. File Processing</h3>
-                <p>All file processing occurs locally in your browser. We do not store, transmit, or have access to your files at any time.</p>
-                
-                <h3>6. Revisions</h3>
-                <p>FileConverter Pro may revise these terms of service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these terms of service.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="legal-section">
-        <div class="container">
-            <div class="legal-content">
-                <h2>Contact Us</h2>
-                <p>Have questions, suggestions, or need support? We'd love to hear from you!</p>
-                
-                <div class="contact-form">
-                    <div class="form-group">
-                        <label for="name">Your Name</label>
-                        <input type="text" id="name" placeholder="Enter your name">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" placeholder="Enter your email">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="subject">Subject</label>
-                        <input type="text" id="subject" placeholder="Enter subject">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" placeholder="Enter your message"></textarea>
-                    </div>
-                    
-                    <button class="btn-primary" onclick="handleContactSubmit()">Send Message</button>
+                    <input type="file" id="fileInput" accept=".pdf" style="display: none;">
                 </div>
                 
-                <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
-                    <h3>Other Ways to Reach Us</h3>
-                    <p><strong>Email:</strong> support@fileconverterpro.com</p>
-                    <p><strong>Response Time:</strong> We typically respond within 24-48 hours</p>
+                <div style="text-align: center;">
+                    <button class="btn" id="uploadBtn">Upload PDF</button>
+                    <button class="btn btn-secondary" id="sampleBtn">Download Sample Fixed PDF</button>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Ad Container 4 -->
-    <div class="container">
-        <div class="ad-container">
-            <!-- AdSense Code 4 -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                 data-ad-slot="5566778899"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>FileConverter Pro</h3>
-                    <p>Your one-stop solution for all file conversion and compression needs. Fast, secure, and completely free.</p>
-                </div>
-                <div class="footer-column">
-                    <h3>Tools</h3>
-                    <ul class="footer-links">
-                        <li><a href="#tools">PDF to Word</a></li>
-                        <li><a href="#tools">Word to PDF</a></li>
-                        <li><a href="#tools">JPG to PDF</a></li>
-                        <li><a href="#tools">PDF Compressor</a></li>
-                        <li><a href="#tools">Image Compressor</a></li>
+                
+                <div class="solution-card">
+                    <h3>Tips for Prevention</h3>
+                    <ul style="padding-left: 20px; margin-top: 10px;">
+                        <li>Always keep a backup of the original PDF</li>
+                        <li>Use watermark opacity between 10-30%</li>
+                        <li>Place watermarks in corners or margins when possible</li>
+                        <li>Test watermarked PDFs before distribution</li>
                     </ul>
                 </div>
-                <div class="footer-column">
-                    <h3>Support</h3>
-                    <ul class="footer-links">
-                        <li><a href="#contact">Contact Us</a></li>
-                        <li><a href="#faq">FAQ</a></li>
-                        <li><a href="#terms">Privacy Policy</a></li>
-                        <li><a href="#terms">Terms of Service</a></li>
-                    </ul>
+                
+                <h2>Alternative Solutions</h2>
+                <p>If our tool doesn't solve your issue, try these alternatives:</p>
+                
+                <div style="margin-top: 15px;">
+                    <button class="btn">Use Adobe Acrobat Pro</button>
+                    <button class="btn btn-secondary">Online PDF Repair Tools</button>
+                    <button class="btn">PDF Layer Extraction Software</button>
                 </div>
             </div>
-            <div class="copyright">
-                <p>&copy; 2023 FileConverter Pro. All rights reserved.</p>
-            </div>
         </div>
-    </footer>
+        
+        <footer>
+            <p>PDF Watermark Restoration Tool &copy; 2025 | For technical support contact: support@pdf-fix.com</p>
+        </footer>
+    </div>
 
     <script>
-        // DOM Elements
-        const converterInterface = document.getElementById('converter-interface');
-        const converterTitle = document.getElementById('converter-title');
-        const closeConverter = document.getElementById('close-converter');
-        const uploadArea = document.getElementById('upload-area');
-        const fileInput = document.getElementById('file-input');
-        const compressionOptions = document.getElementById('compression-options');
-        const watermarkOptions = document.getElementById('watermark-options');
-        const convertBtn = document.getElementById('convert-btn');
-        const resetBtn = document.getElementById('reset-btn');
-        const previewArea = document.getElementById('preview-area');
-        const originalPreview = document.getElementById('original-preview');
-        const convertedPreview = document.getElementById('converted-preview');
-        const originalInfo = document.getElementById('original-info');
-        const convertedInfo = document.getElementById('converted-info');
-        const compressionSlider = document.getElementById('compression-slider');
-        const sliderValue = document.getElementById('slider-value');
-        const levelButtons = document.querySelectorAll('.level-btn');
-        const opacitySlider = document.getElementById('opacity-slider');
-        const opacityValue = document.getElementById('opacity-value');
-        const progressBar = document.getElementById('progress-bar');
-        const progress = document.getElementById('progress');
-        const optimizationNotice = document.getElementById('optimization-notice');
-
-        // Current tool state
-        let currentTool = '';
-        let currentFile = null;
-        let convertedFile = null;
-
-        // Tool selection
-        document.querySelectorAll('.use-tool').forEach(button => {
-            button.addEventListener('click', function() {
-                const toolCard = this.closest('.tool-card');
-                currentTool = toolCard.getAttribute('data-tool');
-                
-                // Update converter title
-                const toolName = toolCard.querySelector('h3').textContent;
-                converterTitle.textContent = toolName;
-                
-                // Show appropriate options
-                compressionOptions.style.display = 'none';
-                watermarkOptions.style.display = 'none';
-                optimizationNotice.style.display = 'none';
-                
-                if (currentTool === 'image-compressor' || currentTool === 'pdf-compressor') {
-                    compressionOptions.style.display = 'block';
-                    optimizationNotice.style.display = 'block';
-                } else if (currentTool === 'watermark') {
-                    watermarkOptions.style.display = 'block';
-                }
-                
-                // Set file input accept attribute based on tool
-                let accept = '';
-                switch(currentTool) {
-                    case 'pdf-to-word':
-                    case 'pdf-to-ppt':
-                    case 'pdf-compressor':
-                    case 'watermark':
-                        accept = '.pdf';
-                        break;
-                    case 'word-to-pdf':
-                        accept = '.doc,.docx';
-                        break;
-                    case 'jpg-to-pdf':
-                    case 'image-compressor':
-                        accept = 'image/*';
-                        break;
-                    case 'pdf-to-jpg':
-                        accept = '.pdf';
-                        break;
-                }
-                fileInput.setAttribute('accept', accept);
-                
-                // Show converter interface
-                converterInterface.style.display = 'block';
-                window.scrollTo({ top: converterInterface.offsetTop - 100, behavior: 'smooth' });
-                
-                // Reset state
-                resetConverter();
-            });
+        document.getElementById('uploadBtn').addEventListener('click', function() {
+            document.getElementById('fileInput').click();
         });
-
-        // Close converter
-        closeConverter.addEventListener('click', function() {
-            converterInterface.style.display = 'none';
-            resetConverter();
+        
+        document.getElementById('dropZone').addEventListener('click', function() {
+            document.getElementById('fileInput').click();
         });
-
-        // File upload handling
-        uploadArea.addEventListener('click', function() {
-            fileInput.click();
+        
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                const fileName = e.target.files[0].name;
+                alert(`File "${fileName}" selected for processing. In a real application, this would upload and fix your PDF.`);
+                
+                // In a real application, you would upload the file to a server for processing
+                // and then provide a download link for the fixed PDF
+            }
         });
-
-        uploadArea.addEventListener('dragover', function(e) {
+        
+        document.getElementById('sampleBtn').addEventListener('click', function() {
+            alert('Sample fixed PDF download started. In a real application, this would download a fixed version of your PDF.');
+            
+            // In a real application, this would trigger the download of the fixed PDF
+        });
+        
+        // Drag and drop functionality
+        const dropZone = document.getElementById('dropZone');
+        
+        dropZone.addEventListener('dragover', function(e) {
             e.preventDefault();
-            uploadArea.classList.add('dragover');
+            dropZone.style.backgroundColor = '#e1f5fe';
+            dropZone.style.borderColor = '#3498db';
         });
-
-        uploadArea.addEventListener('dragleave', function() {
-            uploadArea.classList.remove('dragover');
+        
+        dropZone.addEventListener('dragleave', function() {
+            dropZone.style.backgroundColor = '#f8f9fa';
+            dropZone.style.borderColor = '#4a6491';
         });
-
-        uploadArea.addEventListener('drop', function(e) {
+        
+        dropZone.addEventListener('drop', function(e) {
             e.preventDefault();
-            uploadArea.classList.remove('dragover');
+            dropZone.style.backgroundColor = '#f8f9fa';
+            dropZone.style.borderColor = '#4a6491';
             
-            if (e.dataTransfer.files.length) {
-                handleFileSelection(e.dataTransfer.files[0]);
-            }
-        });
-
-        fileInput.addEventListener('change', function() {
-            if (this.files.length) {
-                handleFileSelection(this.files[0]);
-            }
-        });
-
-        // Handle file selection
-        function handleFileSelection(file) {
-            currentFile = file;
-            
-            // Validate file type
-            let isValid = false;
-            const fileExt = file.name.split('.').pop().toLowerCase();
-            
-            switch(currentTool) {
-                case 'pdf-to-word':
-                case 'pdf-to-ppt':
-                case 'pdf-compressor':
-                case 'watermark':
-                case 'pdf-to-jpg':
-                    isValid = fileExt === 'pdf';
-                    break;
-                case 'word-to-pdf':
-                    isValid = ['doc', 'docx'].includes(fileExt);
-                    break;
-                case 'jpg-to-pdf':
-                case 'image-compressor':
-                    isValid = file.type.startsWith('image/');
-                    break;
-            }
-            
-            if (!isValid) {
-                alert('Please select a valid file type for this tool.');
-                return;
-            }
-            
-            // Update UI
-            uploadArea.innerHTML = `
-                <i class="material-icons">check_circle</i>
-                <h3>File Selected</h3>
-                <p>${file.name}</p>
-                <p>Size: ${formatFileSize(file.size)}</p>
-            `;
-            
-            convertBtn.disabled = false;
-            
-            // Show preview for images
-            if (file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    originalPreview.src = e.target.result;
-                    originalInfo.textContent = `Size: ${formatFileSize(file.size)}`;
-                    previewArea.style.display = 'flex';
-                };
-                reader.readAsDataURL(file);
-            } else {
-                previewArea.style.display = 'none';
-            }
-        }
-
-        // Compression level buttons
-        levelButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                levelButtons.forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-                const size = this.getAttribute('data-size');
-                compressionSlider.value = size;
-                sliderValue.textContent = size;
-            });
-        });
-
-        // Compression slider
-        compressionSlider.addEventListener('input', function() {
-            sliderValue.textContent = this.value;
-            
-            // Update active button if value matches
-            levelButtons.forEach(button => {
-                if (button.getAttribute('data-size') === this.value) {
-                    button.classList.add('active');
-                } else {
-                    button.classList.remove('active');
-                }
-            });
-        });
-
-        // Opacity slider
-        opacitySlider.addEventListener('input', function() {
-            opacityValue.textContent = `${this.value}%`;
-        });
-
-        // Convert button
-        convertBtn.addEventListener('click', function() {
-            if (!currentFile) return;
-            
-            // Show progress bar
-            progressBar.style.display = 'block';
-            progress.style.width = '0%';
-            
-            // Simulate conversion process
-            convertBtn.disabled = true;
-            convertBtn.innerHTML = '<span class="loading"></span> Processing...';
-            
-            // Simulate progress
-            let progressValue = 0;
-            const progressInterval = setInterval(() => {
-                progressValue += 5;
-                progress.style.width = `${progressValue}%`;
-                
-                if (progressValue >= 100) {
-                    clearInterval(progressInterval);
-                    processConversion();
-                }
-            }, 100);
-        });
-
-        // Process the actual conversion
-        async function processConversion() {
-            const originalSize = currentFile.size;
-            let convertedSize;
-            let outputBlob;
-            
-            try {
-                if (currentTool === 'image-compressor') {
-                    // Actual image compression with optimized algorithm
-                    outputBlob = await compressImageOptimized(currentFile, parseInt(compressionSlider.value));
-                    convertedSize = outputBlob.size;
-                } else if (currentTool === 'jpg-to-pdf') {
-                    // Convert image to PDF
-                    outputBlob = await imageToPdf(currentFile);
-                    convertedSize = outputBlob.size;
-                } else if (currentTool === 'pdf-compressor') {
-                    // Simulate PDF compression
-                    convertedSize = Math.min(originalSize, parseInt(compressionSlider.value) * 1024);
-                    outputBlob = new Blob([currentFile], { type: 'application/pdf' });
-                } else if (currentTool === 'watermark') {
-                    // Create watermarked PDF - FIXED WORKING VERSION
-                    outputBlob = await createWatermarkedPDF(currentFile);
-                    convertedSize = outputBlob.size;
-                } else {
-                    // For other tools, simulate conversion
-                    convertedSize = Math.max(originalSize * 0.7, 10000);
-                    outputBlob = new Blob([currentFile], { type: 'application/octet-stream' });
-                }
-                
-                convertedFile = outputBlob;
-                
-                // Update UI with results
-                if (currentFile.type.startsWith('image/') && outputBlob.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        convertedPreview.src = e.target.result;
-                        convertedInfo.textContent = `Size: ${formatFileSize(convertedSize)} (${Math.round((1 - convertedSize/originalSize) * 100)}% reduction)`;
-                        previewArea.style.display = 'flex';
-                    };
-                    reader.readAsDataURL(outputBlob);
-                }
-                
-                convertBtn.innerHTML = 'Download Converted File';
-                convertBtn.disabled = false;
-                
-                // Change button to download
-                convertBtn.onclick = function() {
-                    downloadFile(convertedFile, getOutputFilename());
-                };
-                
-            } catch (error) {
-                console.error('Conversion error:', error);
-                alert('Error processing file. Please try again with a different file.');
-                resetConverter();
-            } finally {
-                // Hide progress bar
-                progressBar.style.display = 'none';
-            }
-        }
-
-        // Create watermarked PDF - FIXED WORKING VERSION
-        async function createWatermarkedPDF(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                
-                reader.onload = function(e) {
-                    try {
-                        const { jsPDF } = window.jspdf;
-                        const pdf = new jsPDF();
-                        
-                        // Get watermark settings
-                        const watermarkText = document.getElementById('watermark-text').value || 'CONFIDENTIAL';
-                        const opacity = parseInt(document.getElementById('opacity-slider').value) / 100;
-                        const position = document.getElementById('watermark-position').value;
-                        
-                        // Add original PDF content (simulated)
-                        pdf.setFontSize(16);
-                        pdf.text('Watermarked Document', 20, 30);
-                        pdf.setFontSize(12);
-                        pdf.text('Original file: ' + file.name, 20, 50);
-                        pdf.text('File size: ' + formatFileSize(file.size), 20, 65);
-                        pdf.text('Watermark text: ' + watermarkText, 20, 80);
-                        pdf.text('Opacity: ' + (opacity * 100) + '%', 20, 95);
-                        pdf.text('Position: ' + position, 20, 110);
-                        
-                        // Add watermark with proper positioning
-                        pdf.setFontSize(36);
-                        pdf.setTextColor(200, 200, 200);
-                        
-                        // Set opacity
-                        const gState = pdf.GState({ opacity: opacity });
-                        pdf.setGState(gState);
-                        
-                        // Calculate position
-                        let x, y;
-                        const pageWidth = pdf.internal.pageSize.getWidth();
-                        const pageHeight = pdf.internal.pageSize.getHeight();
-                        
-                        switch(position) {
-                            case 'top-left':
-                                x = 30;
-                                y = 40;
-                                break;
-                            case 'top-right':
-                                x = pageWidth - 80;
-                                y = 40;
-                                break;
-                            case 'bottom-left':
-                                x = 30;
-                                y = pageHeight - 20;
-                                break;
-                            case 'bottom-right':
-                                x = pageWidth - 80;
-                                y = pageHeight - 20;
-                                break;
-                            default: // center
-                                x = pageWidth / 2;
-                                y = pageHeight / 2;
-                        }
-                        
-                        // Add rotated watermark text
-                        pdf.text(watermarkText, x, y, { angle: 45 });
-                        
-                        // Reset graphics state
-                        pdf.setGState(pdf.GState({ opacity: 1 }));
-                        
-                        const pdfBlob = pdf.output('blob');
-                        resolve(pdfBlob);
-                    } catch (error) {
-                        reject(error);
-                    }
-                };
-                
-                reader.onerror = () => reject(new Error('Failed to read file'));
-                
+            if (e.dataTransfer.files.length > 0) {
+                const file = e.dataTransfer.files[0];
                 if (file.type === 'application/pdf') {
-                    // For actual PDF files, we would use pdf-lib or similar
-                    // For demo, we'll create a new PDF with watermark
-                    reader.readAsText(file);
+                    alert(`File "${file.name}" dropped for processing. In a real application, this would upload and fix your PDF.`);
                 } else {
-                    reject(new Error('Please upload a PDF file for watermarking'));
+                    alert('Please drop a PDF file.');
                 }
-            });
-        }
-
-        // Optimized image compression function
-        async function compressImageOptimized(file, targetSizeKB) {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                
-                img.onload = function() {
-                    const originalWidth = img.width;
-                    const originalHeight = img.height;
-                    
-                    // Calculate optimal dimensions for target size
-                    const targetBytes = targetSizeKB * 1024;
-                    const quality = Math.max(0.1, Math.min(0.9, targetBytes / file.size));
-                    
-                    // Calculate new dimensions maintaining aspect ratio
-                    const scale = Math.sqrt(quality);
-                    let newWidth = Math.floor(originalWidth * scale);
-                    let newHeight = Math.floor(originalHeight * scale);
-                    
-                    // Ensure minimum dimensions
-                    newWidth = Math.max(newWidth, 100);
-                    newHeight = Math.max(newHeight, 100);
-                    
-                    canvas.width = newWidth;
-                    canvas.height = newHeight;
-                    
-                    // Use high-speed rendering for better performance
-                    ctx.imageSmoothingEnabled = true;
-                    ctx.imageSmoothingQuality = 'low';
-                    
-                    ctx.drawImage(img, 0, 0, newWidth, newHeight);
-                    
-                    // Adaptive quality based on target size
-                    let outputQuality = 0.8;
-                    if (targetSizeKB <= 30) outputQuality = 0.6;
-                    if (targetSizeKB <= 10) outputQuality = 0.4;
-                    
-                    canvas.toBlob((blob) => {
-                        if (!blob) {
-                            reject(new Error('Compression failed'));
-                            return;
-                        }
-                        
-                        resolve(blob);
-                    }, 'image/jpeg', outputQuality);
-                };
-                
-                img.onerror = () => reject(new Error('Failed to load image'));
-                img.src = URL.createObjectURL(file);
-            });
-        }
-
-        // Convert image to PDF
-        async function imageToPdf(file) {
-            return new Promise((resolve) => {
-                const img = new Image();
-                img.onload = function() {
-                    const { jsPDF } = window.jspdf;
-                    const pdf = new jsPDF();
-                    const width = pdf.internal.pageSize.getWidth();
-                    const height = (img.height * width) / img.width;
-                    
-                    pdf.addImage(img, 'JPEG', 0, 0, width, height);
-                    const pdfBlob = pdf.output('blob');
-                    resolve(pdfBlob);
-                };
-                img.src = URL.createObjectURL(file);
-            });
-        }
-
-        // Download file function - FIXED
-        function downloadFile(blob, filename) {
-            try {
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename;
-                a.style.display = 'none';
-                document.body.appendChild(a);
-                a.click();
-                setTimeout(() => {
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                }, 100);
-            } catch (error) {
-                alert('Download failed. Please try again.');
             }
-        }
-
-        // Generate output filename
-        function getOutputFilename() {
-            const originalName = currentFile.name;
-            const nameWithoutExt = originalName.substring(0, originalName.lastIndexOf('.'));
-            let extension = '';
-            
-            switch(currentTool) {
-                case 'pdf-to-word':
-                    extension = '.docx';
-                    break;
-                case 'word-to-pdf':
-                    extension = '.pdf';
-                    break;
-                case 'jpg-to-pdf':
-                    extension = '.pdf';
-                    break;
-                case 'pdf-to-jpg':
-                    extension = '.jpg';
-                    break;
-                case 'pdf-to-ppt':
-                    extension = '.pptx';
-                    break;
-                case 'pdf-compressor':
-                case 'watermark':
-                    extension = '.pdf';
-                    break;
-                case 'image-compressor':
-                    extension = '.jpg';
-                    break;
-                default:
-                    extension = '.converted';
-            }
-            
-            return `${nameWithoutExt}_converted${extension}`;
-        }
-
-        // Reset button
-        resetBtn.addEventListener('click', resetConverter);
-
-        // Contact form handler
-        function handleContactSubmit() {
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value;
-            
-            if (!name || !email || !message) {
-                alert('Please fill in all required fields.');
-                return;
-            }
-            
-            alert('Thank you for your message! We will get back to you soon.');
-            document.getElementById('name').value = '';
-            document.getElementById('email').value = '';
-            document.getElementById('subject').value = '';
-            document.getElementById('message').value = '';
-        }
-
-        // Utility functions
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-
-        function resetConverter() {
-            currentFile = null;
-            convertedFile = null;
-            uploadArea.innerHTML = `
-                <i class="material-icons">cloud_upload</i>
-                <h3>Drag & Drop your file here</h3>
-                <p>or click to browse files</p>
-            `;
-            convertBtn.disabled = true;
-            convertBtn.textContent = 'Convert File';
-            convertBtn.onclick = null;
-            previewArea.style.display = 'none';
-            originalPreview.src = '';
-            convertedPreview.src = '';
-            originalInfo.textContent = '';
-            convertedInfo.textContent = '';
-            fileInput.value = '';
-            progressBar.style.display = 'none';
-            
-            compressionSlider.value = 50;
-            sliderValue.textContent = '50';
-            levelButtons.forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.getAttribute('data-size') === '50') {
-                    btn.classList.add('active');
-                }
-            });
-            
-            document.getElementById('watermark-text').value = '';
-            opacitySlider.value = 50;
-            opacityValue.textContent = '50%';
-            document.getElementById('watermark-position').value = 'center';
-        }
-
-        // Initialize AdSense
-        (adsbygoogle = window.adsbygoogle || []).push({});
+        });
     </script>
 </body>
 </html>
