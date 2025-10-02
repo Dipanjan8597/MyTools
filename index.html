@@ -8,6 +8,8 @@
     <meta name="keywords" content="PDF to Word, Word to PDF, JPG to PDF, PDF compressor, image compressor, file converter, PDF to JPG, PDF to PPT">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Material+Icons&display=swap">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
     <style>
         :root {
             --primary: #4285f4;
@@ -608,6 +610,12 @@
             color: var(--secondary);
             margin-right: 8px;
         }
+
+        /* AdSense Responsive */
+        .adsbygoogle {
+            display: block;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
@@ -638,14 +646,19 @@
         </div>
     </section>
 
-    <!-- Ad Container -->
+    <!-- Ad Container 1 -->
     <div class="container">
         <div class="ad-container">
-            <div class="ad-placeholder">
-                <!-- Replace with your Google AdSense code -->
-                <p>Advertisement Space</p>
-                <p>Insert Google AdSense code here</p>
-            </div>
+            <!-- AdSense Code 1 -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="1234567890"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
         </div>
     </div>
 
@@ -828,6 +841,22 @@
             </div>
         </div>
     </section>
+
+    <!-- Ad Container 2 -->
+    <div class="container">
+        <div class="ad-container">
+            <!-- AdSense Code 2 -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="0987654321"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
 
     <!-- Features Section -->
     <section id="features" class="features-section">
@@ -1213,6 +1242,10 @@
                     // Simulate PDF compression
                     convertedSize = Math.min(originalSize, parseInt(compressionSlider.value) * 1024);
                     outputBlob = new Blob([currentFile], { type: 'application/pdf' });
+                } else if (currentTool === 'watermark') {
+                    // Create watermarked PDF without password protection
+                    outputBlob = await createWatermarkedPDF(currentFile);
+                    convertedSize = outputBlob.size;
                 } else {
                     // For other tools, simulate conversion
                     convertedSize = Math.max(originalSize * 0.7, 10000);
@@ -1248,6 +1281,43 @@
                 // Hide progress bar
                 progressBar.style.display = 'none';
             }
+        }
+
+        // Create watermarked PDF without password protection
+        async function createWatermarkedPDF(file) {
+            return new Promise((resolve) => {
+                // For demo purposes, create a simple PDF with watermark text
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF();
+                
+                // Add content to PDF
+                pdf.setFontSize(16);
+                pdf.text('Watermarked Document', 20, 30);
+                pdf.setFontSize(12);
+                pdf.text('Original file: ' + file.name, 20, 50);
+                
+                // Add watermark text
+                const watermarkText = document.getElementById('watermark-text').value || 'CONFIDENTIAL';
+                const opacity = parseInt(document.getElementById('opacity-slider').value) / 100;
+                const position = document.getElementById('watermark-position').value;
+                
+                pdf.setFontSize(48);
+                pdf.setTextColor(200, 200, 200);
+                pdf.setGState(new pdf.GState({opacity: opacity}));
+                
+                let x = 105, y = 140; // Center default
+                switch(position) {
+                    case 'top-left': x = 30; y = 50; break;
+                    case 'top-right': x = 150; y = 50; break;
+                    case 'bottom-left': x = 30; y = 270; break;
+                    case 'bottom-right': x = 150; y = 270; break;
+                }
+                
+                pdf.text(watermarkText, x, y, {angle: 45});
+                
+                const pdfBlob = pdf.output('blob');
+                resolve(pdfBlob);
+            });
         }
 
         // Optimized image compression function
@@ -1366,16 +1436,32 @@
             });
         }
 
-        // Download file function
+        // Download file function - FIXED
         function downloadFile(blob, filename) {
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            try {
+                // Create object URL
+                const url = URL.createObjectURL(blob);
+                
+                // Create download link
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.style.display = 'none';
+                
+                // Append to body and click
+                document.body.appendChild(a);
+                a.click();
+                
+                // Clean up
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+                
+            } catch (error) {
+                console.error('Download error:', error);
+                alert('Download failed. Please try again.');
+            }
         }
 
         // Generate output filename
@@ -1484,8 +1570,8 @@
             document.getElementById('watermark-position').value = 'center';
         }
 
-        // Initialize AdSense (replace with your actual AdSense code)
-        // (adsbygoogle = window.adsbygoogle || []).push({});
+        // Initialize AdSense
+        (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
 </body>
 </html>
