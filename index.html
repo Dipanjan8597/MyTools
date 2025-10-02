@@ -108,6 +108,7 @@
             text-decoration: none;
             font-weight: 500;
             transition: opacity 0.3s;
+            cursor: pointer;
         }
         
         nav a:hover {
@@ -155,6 +156,28 @@
             border: 1px solid #c3e6cb;
         }
         
+        /* System Status */
+        .system-status {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 15px;
+            background: var(--success);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
         /* Tools Grid */
         .section-title {
             text-align: center;
@@ -188,6 +211,7 @@
             text-align: center;
             border: 1px solid #e9ecef;
             position: relative;
+            cursor: pointer;
         }
         
         .tool-card:hover {
@@ -281,28 +305,6 @@
             border: 1px solid #ddd;
             border-radius: 4px;
             background: white;
-        }
-        
-        /* System Status */
-        .system-status {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 1rem 0;
-            text-align: center;
-        }
-        
-        .status-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 5px 15px;
-            background: var(--success);
-            color: white;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
         }
         
         /* Ad Spaces */
@@ -424,12 +426,87 @@
             color: var(--secondary);
         }
         
+        /* Contact Section */
+        .contact {
+            padding: 4rem 0;
+            background: white;
+        }
+        
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+        
+        .contact-info h2 {
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+        
+        .contact-info p {
+            margin-bottom: 2rem;
+            color: var(--gray);
+        }
+        
+        .contact-details {
+            margin-bottom: 2rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: var(--primary);
+        }
+        
+        .contact-form {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
         /* Legal Pages */
         .legal-page {
             padding: 4rem 0;
             background: white;
             max-width: 800px;
             margin: 0 auto;
+            display: none;
         }
         
         .legal-page h1 {
@@ -488,6 +565,7 @@
             color: #ddd;
             text-decoration: none;
             transition: color 0.3s;
+            cursor: pointer;
         }
         
         .footer-column a:hover {
@@ -691,10 +769,10 @@
                 
                 <nav>
                     <ul>
-                        <li><a href="#tools">Tools</a></li>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a onclick="showSection('tools')">Tools</a></li>
+                        <li><a onclick="showSection('features')">Features</a></li>
+                        <li><a onclick="showSection('about')">About</a></li>
+                        <li><a onclick="showSection('contact')">Contact</a></li>
                     </ul>
                 </nav>
             </div>
@@ -702,7 +780,7 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="hero">
         <div class="container">
             <h1>Secure PDF Tools <span class="security-badge">MILITARY-GRADE ENCRYPTION</span></h1>
             <p>Process your PDF files with enterprise-level security. All files are encrypted and automatically deleted after processing.</p>
@@ -738,17 +816,17 @@
         </div>
     </section>
 
-    <!-- Main Content -->
+    <!-- Main Content Sections -->
     <main class="container">
         <!-- Tools Section -->
-        <section id="tools">
+        <section id="tools" class="section-content">
             <h2 class="section-title">Secure PDF Tools</h2>
             <p class="section-subtitle">All processing happens securely in your browser. No files are sent to servers.</p>
             
             <div class="tools-grid">
                 <!-- Image Compression -->
                 <div class="tool-card" data-tool="image-compress">
-                    <div class="tool-icon">🖼️</div>
+                    <div class="tool-icon">🖼</div>
                     <h3>Image Compression</h3>
                     <p>Reduce image file size without losing quality</p>
                     <div class="compression-options">
@@ -800,7 +878,53 @@
                     <button class="btn btn-primary">Compress PDF</button>
                 </div>
                 
-                <!-- Other tools... (same as before) -->
+                <!-- PDF to JPG -->
+                <div class="tool-card" data-tool="pdf-to-jpg">
+                    <div class="tool-icon">🔄</div>
+                    <h3>PDF to JPG</h3>
+                    <p>Convert PDF pages to high-quality JPG images</p>
+                    <button class="btn btn-primary">Convert Now</button>
+                </div>
+                
+                <!-- JPG to PDF -->
+                <div class="tool-card" data-tool="jpg-to-pdf">
+                    <div class="tool-icon">📄</div>
+                    <h3>JPG to PDF</h3>
+                    <p>Convert JPG images to PDF documents</p>
+                    <button class="btn btn-primary">Convert Now</button>
+                </div>
+                
+                <!-- PDF to Word -->
+                <div class="tool-card" data-tool="pdf-to-word">
+                    <div class="tool-icon">📝</div>
+                    <h3>PDF to Word</h3>
+                    <p>Convert PDF files to editable Word documents</p>
+                    <button class="btn btn-primary">Convert Now</button>
+                </div>
+                
+                <!-- Word to PDF -->
+                <div class="tool-card" data-tool="word-to-pdf">
+                    <div class="tool-icon">🔀</div>
+                    <h3>Word to PDF</h3>
+                    <p>Convert Word documents to PDF format</p>
+                    <button class="btn btn-primary">Convert Now</button>
+                </div>
+                
+                <!-- PDF to PPT -->
+                <div class="tool-card" data-tool="pdf-to-ppt">
+                    <div class="tool-icon">📊</div>
+                    <h3>PDF to PPT</h3>
+                    <p>Convert PDF files to PowerPoint presentations</p>
+                    <button class="btn btn-primary">Convert Now</button>
+                </div>
+                
+                <!-- PPT to PDF -->
+                <div class="tool-card" data-tool="ppt-to-pdf">
+                    <div class="tool-icon">🔄</div>
+                    <h3>PPT to PDF</h3>
+                    <p>Convert PowerPoint to PDF documents</p>
+                    <button class="btn btn-primary">Convert Now</button>
+                </div>
             </div>
             
             <!-- Ad Space 2 -->
@@ -816,9 +940,9 @@
                 </div>
             </div>
         </section>
-
+        
         <!-- Features Section -->
-        <section class="features" id="features">
+        <section class="features" id="features" class="section-content" style="display: none;">
             <div class="container">
                 <h2 class="section-title">Enterprise-Grade Security</h2>
                 <p class="section-subtitle">Your privacy and security are our top priorities</p>
@@ -863,10 +987,186 @@
                      data-full-width-responsive="true"></ins>
             </div>
         </div>
-
-        <!-- Rest of the content... -->
-
+        
+        <!-- About Section -->
+        <section class="about" id="about" class="section-content" style="display: none;">
+            <div class="container">
+                <h2 class="section-title">About PDF Master Pro</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2>My Mission</h2>
+                        <p>PDF Master Pro was created with a simple mission: to make PDF management accessible to everyone. I believe that working with PDFs shouldn't require expensive software or technical expertise.</p>
+                        <p>As an independent developer, I work tirelessly to create tools that are both powerful and easy to use. I'm committed to providing free, high-quality PDF solutions that help individuals and businesses work more efficiently.</p>
+                        
+                        <div class="values-grid">
+                            <div class="value-item">
+                                <div class="value-icon">🎯</div>
+                                <h4>User-Focused</h4>
+                                <p>I prioritize user experience in every tool I develop</p>
+                            </div>
+                            <div class="value-item">
+                                <div class="value-icon">🚀</div>
+                                <h4>Innovation</h4>
+                                <p>Continuously improving technology and features</p>
+                            </div>
+                            <div class="value-item">
+                                <div class="value-icon">🛡</div>
+                                <h4>Security First</h4>
+                                <p>Your privacy and data security are my top priorities</p>
+                            </div>
+                            <div class="value-item">
+                                <div class="value-icon">🌍</div>
+                                <h4>Accessibility</h4>
+                                <p>Making PDF tools available to everyone, everywhere</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-image">
+                        <!-- Ad Space in About Section -->
+                        <div class="ad-container">
+                            <div class="ad-label">Advertisement</div>
+                            <div class="ad-space ad-square">
+                                <ins class="adsbygoogle"
+                                     style="display:block"
+                                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                                     data-ad-slot="5678901234"
+                                     data-ad-format="auto"
+                                     data-full-width-responsive="true"></ins>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section class="contact" id="contact" class="section-content" style="display: none;">
+            <div class="container">
+                <h2 class="section-title">Get In Touch</h2>
+                <p class="section-subtitle">Have questions or feedback? I'd love to hear from you.</p>
+                
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <h2>Contact Information</h2>
+                        <p>Reach out through any of the following channels. I typically respond within 24 hours.</p>
+                        
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <div class="contact-icon">📧</div>
+                                <div>
+                                    <h3>Email</h3>
+                                    <p>support@pdfmasterpro.com</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <div class="contact-icon">🐦</div>
+                                <div>
+                                    <h3>Twitter</h3>
+                                    <p>@PDFMasterPro</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <div class="contact-icon">💼</div>
+                                <div>
+                                    <h3>LinkedIn</h3>
+                                    <p>PDF Master Pro</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-form">
+                        <h2>Send a Message</h2>
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <input type="text" id="name" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject">Subject</label>
+                                <input type="text" id="subject" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" class="form-control" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <!-- Legal Pages -->
+    <section class="legal-page" id="privacy-policy">
+        <div class="container">
+            <h1>Privacy Policy</h1>
+            <p>Last updated: February 10, 2025</p>
+            
+            <h2>Information We Collect</h2>
+            <p>PDF Master Pro does not collect, store, or transmit any personal information. All file processing occurs locally in your browser.</p>
+            
+            <h2>File Processing</h2>
+            <p>Your files are processed entirely on your device. No files are uploaded to our servers or stored anywhere except temporarily in your browser's memory during processing.</p>
+            
+            <h2>Data Security</h2>
+            <p>We implement industry-standard security measures to ensure your data remains private and secure during processing.</p>
+            
+            <h2>Third-Party Services</h2>
+            <p>We may use third-party services like Google AdSense for advertising, which have their own privacy policies.</p>
+            
+            <button class="btn btn-primary" onclick="hideLegalPages()">Back to Site</button>
+        </div>
+    </section>
+    
+    <section class="legal-page" id="terms-of-service">
+        <div class="container">
+            <h1>Terms of Service</h1>
+            <p>Last updated: February 10, 2025</p>
+            
+            <h2>Acceptance of Terms</h2>
+            <p>By accessing and using PDF Master Pro, you accept and agree to be bound by these Terms of Service.</p>
+            
+            <h2>Use of Service</h2>
+            <p>You may use our services for personal and commercial purposes, subject to these terms.</p>
+            
+            <h2>Prohibited Uses</h2>
+            <p>You may not use our service for any illegal purposes or to process copyrighted material without permission.</p>
+            
+            <h2>Limitation of Liability</h2>
+            <p>PDF Master Pro is provided "as is" without any warranties. We are not liable for any damages resulting from the use of our service.</p>
+            
+            <button class="btn btn-primary" onclick="hideLegalPages()">Back to Site</button>
+        </div>
+    </section>
+    
+    <section class="legal-page" id="disclaimer">
+        <div class="container">
+            <h1>Disclaimer</h1>
+            
+            <h2>No Warranty</h2>
+            <p>PDF Master Pro is provided without warranty of any kind. We do not guarantee uninterrupted or error-free service.</p>
+            
+            <h2>File Security</h2>
+            <p>While we implement security measures, users should always maintain backups of important files.</p>
+            
+            <h2>Third-Party Content</h2>
+            <p>We are not responsible for content in advertisements or links to third-party websites.</p>
+            
+            <button class="btn btn-primary" onclick="hideLegalPages()">Back to Site</button>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer>
@@ -875,28 +1175,28 @@
                 <div class="footer-column">
                     <h3>PDF Tools</h3>
                     <ul>
-                        <li><a href="#">Compress PDF</a></li>
-                        <li><a href="#">PDF to Word</a></li>
-                        <li><a href="#">PDF to JPG</a></li>
-                        <li><a href="#">JPG to PDF</a></li>
-                        <li><a href="#">Word to PDF</a></li>
+                        <li><a onclick="showSection('tools')">Compress PDF</a></li>
+                        <li><a onclick="showSection('tools')">PDF to Word</a></li>
+                        <li><a onclick="showSection('tools')">PDF to JPG</a></li>
+                        <li><a onclick="showSection('tools')">JPG to PDF</a></li>
+                        <li><a onclick="showSection('tools')">Word to PDF</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-column">
                     <h3>Legal</h3>
                     <ul>
-                        <li><a href="#" onclick="showPrivacyPolicy()">Privacy Policy</a></li>
-                        <li><a href="#" onclick="showTerms()">Terms of Service</a></li>
-                        <li><a href="#" onclick="showDisclaimer()">Disclaimer</a></li>
+                        <li><a onclick="showPrivacyPolicy()">Privacy Policy</a></li>
+                        <li><a onclick="showTerms()">Terms of Service</a></li>
+                        <li><a onclick="showDisclaimer()">Disclaimer</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-column">
                     <h3>Security</h3>
                     <ul>
-                        <li><a href="#" onclick="showSecurity()">Security Overview</a></li>
-                        <li><a href="#" onclick="showCompliance()">Compliance</a></li>
+                        <li><a onclick="showSection('features')">Security Overview</a></li>
+                        <li><a onclick="showCompliance()">Compliance</a></li>
                     </ul>
                 </div>
             </div>
@@ -906,14 +1206,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- Legal Pages Modal -->
-    <div class="modal" id="legalModal">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeLegalModal()">&times;</button>
-            <div id="legalContent"></div>
-        </div>
-    </div>
 
     <!-- Tool Modal -->
     <div class="modal" id="toolModal">
@@ -1172,7 +1464,7 @@
         class SecuritySystem {
             constructor() {
                 this.sanitizationPatterns = {
-                    html: /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+                    html: /<script\b[^<](?:(?!<\/script>)<[^<])*<\/script>/gi,
                     xss: /javascript:|data:text\/html|on\w+\s*=/gi,
                     fileTypes: /\.(exe|bat|cmd|sh|php|asp|aspx|jsp|jar|war)$/i
                 };
@@ -1215,111 +1507,455 @@
         const crashProtection = new CrashProtection();
         const securitySystem = new SecuritySystem();
 
-        // DOM Elements and application code...
-        // [Previous application code remains the same but enhanced with security and crash protection]
-
-        // Enhanced file handling with crash protection
+        // DOM Elements
+        const toolCards = document.querySelectorAll('.tool-card');
+        const modal = document.getElementById('toolModal');
+        const closeModal = document.querySelector('.close-modal');
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const processBtn = document.getElementById('processBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const progressBar = document.getElementById('progressBar');
+        const modalTitle = document.getElementById('modalTitle');
+        const uploadText = document.getElementById('uploadText');
+        const uploadIcon = document.getElementById('uploadIcon');
+        const modalCompressionOptions = document.getElementById('modalCompressionOptions');
+        const contactForm = document.getElementById('contactForm');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const targetSize = document.getElementById('targetSize');
+        
+        // Custom compression elements
+        const customImageSize = document.getElementById('customImageSize');
+        const customImageUnit = document.getElementById('customImageUnit');
+        const applyCustomImage = document.getElementById('applyCustomImage');
+        const customPdfSize = document.getElementById('customPdfSize');
+        const customPdfUnit = document.getElementById('customPdfUnit');
+        const applyCustomPdf = document.getElementById('applyCustomPdf');
+        const customModalSize = document.getElementById('customModalSize');
+        const customModalUnit = document.getElementById('customModalUnit');
+        const applyCustomModal = document.getElementById('applyCustomModal');
+        
+        // Tool configurations
+        const toolConfigs = {
+            'image-compress': {
+                title: 'Image Compression',
+                uploadText: 'Drop your image here',
+                icon: '🖼',
+                accept: 'image/*',
+                hasCompression: true
+            },
+            'pdf-compress': {
+                title: 'PDF Compression',
+                uploadText: 'Drop your PDF here',
+                icon: '📦',
+                accept: '.pdf',
+                hasCompression: true
+            },
+            'pdf-to-jpg': {
+                title: 'PDF to JPG',
+                uploadText: 'Drop your PDF here',
+                icon: '🔄',
+                accept: '.pdf',
+                hasCompression: false
+            },
+            'jpg-to-pdf': {
+                title: 'JPG to PDF',
+                uploadText: 'Drop your JPG images here',
+                icon: '📄',
+                accept: 'image/*',
+                hasCompression: false
+            },
+            'pdf-to-word': {
+                title: 'PDF to Word',
+                uploadText: 'Drop your PDF here',
+                icon: '📝',
+                accept: '.pdf',
+                hasCompression: false
+            },
+            'word-to-pdf': {
+                title: 'Word to PDF',
+                uploadText: 'Drop your Word document here',
+                icon: '🔀',
+                accept: '.doc,.docx',
+                hasCompression: false
+            },
+            'pdf-to-ppt': {
+                title: 'PDF to PPT',
+                uploadText: 'Drop your PDF here',
+                icon: '📊',
+                accept: '.pdf',
+                hasCompression: false
+            },
+            'ppt-to-pdf': {
+                title: 'PPT to PDF',
+                uploadText: 'Drop your PowerPoint here',
+                icon: '🔄',
+                accept: '.ppt,.pptx',
+                hasCompression: false
+            }
+        };
+        
+        // Current active tool and selected compression
+        let currentTool = null;
+        let selectedCompressionSize = null;
+        let currentFile = null;
+        let isCustomSize = false;
+        let customSizeValue = null;
+        let customSizeUnit = null;
+        
+        // Event Listeners
+        toolCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                // Don't open modal if compression option was clicked
+                if (e.target.classList.contains('compression-option') || 
+                    e.target.classList.contains('btn-accent') ||
+                    e.target.tagName === 'INPUT' ||
+                    e.target.tagName === 'SELECT') {
+                    return;
+                }
+                
+                const tool = card.dataset.tool;
+                openToolModal(tool);
+            });
+        });
+        
+        // Apply custom size buttons
+        applyCustomImage.addEventListener('click', () => {
+            applyCustomCompression('image-compress', customImageSize.value, customImageUnit.value);
+        });
+        
+        applyCustomPdf.addEventListener('click', () => {
+            applyCustomCompression('pdf-compress', customPdfSize.value, customPdfUnit.value);
+        });
+        
+        applyCustomModal.addEventListener('click', () => {
+            applyCustomCompression(currentTool, customModalSize.value, customModalUnit.value);
+        });
+        
+        // Compression option selection
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('compression-option')) {
+                // Remove active class from all options
+                document.querySelectorAll('.compression-option').forEach(option => {
+                    option.classList.remove('active');
+                });
+                
+                // Add active class to clicked option
+                e.target.classList.add('active');
+                
+                // Store selected size
+                selectedCompressionSize = e.target.dataset.size;
+                
+                // Reset custom size
+                isCustomSize = false;
+                customSizeValue = null;
+                customSizeUnit = null;
+                
+                // Enable process button if file is selected
+                if (currentFile) {
+                    processBtn.disabled = false;
+                    updateTargetSizeDisplay();
+                }
+            }
+        });
+        
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        fileInput.addEventListener('change', handleFileSelect);
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#4361ee';
+            uploadArea.style.backgroundColor = '#f0f4ff';
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = '#ddd';
+            uploadArea.style.backgroundColor = '';
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#ddd';
+            uploadArea.style.backgroundColor = '';
+            
+            if (e.dataTransfer.files.length) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+        
+        processBtn.addEventListener('click', processFile);
+        downloadBtn.addEventListener('click', downloadFile);
+        
+        // Contact form submission
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! I will get back to you soon.');
+            contactForm.reset();
+        });
+        
+        // Functions
+        function applyCustomCompression(tool, size, unit) {
+            if (!size || size <= 0) {
+                alert('Please enter a valid file size');
+                return;
+            }
+            
+            // Open modal for the specified tool
+            if (tool !== currentTool) {
+                openToolModal(tool);
+            }
+            
+            // Set custom size
+            isCustomSize = true;
+            customSizeValue = size;
+            customSizeUnit = unit;
+            
+            // Reset predefined compression options
+            document.querySelectorAll('.compression-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            
+            // Enable process button if file is selected
+            if (currentFile) {
+                processBtn.disabled = false;
+                updateTargetSizeDisplay();
+            }
+            
+            // Update modal custom inputs
+            if (modal.style.display === 'flex') {
+                customModalSize.value = size;
+                customModalUnit.value = unit;
+            }
+        }
+        
+        function openToolModal(tool) {
+            currentTool = tool;
+            const config = toolConfigs[tool];
+            
+            modalTitle.textContent = config.title;
+            uploadText.textContent = config.uploadText;
+            uploadIcon.textContent = config.icon;
+            fileInput.setAttribute('accept', config.accept);
+            
+            // Show/hide compression options
+            if (config.hasCompression) {
+                modalCompressionOptions.style.display = 'block';
+                fileInfo.style.display = 'none';
+            } else {
+                modalCompressionOptions.style.display = 'none';
+                fileInfo.style.display = 'none';
+            }
+            
+            // Reset UI
+            progressBar.style.width = '0%';
+            processBtn.disabled = true;
+            downloadBtn.disabled = true;
+            selectedCompressionSize = null;
+            currentFile = null;
+            isCustomSize = false;
+            customSizeValue = null;
+            customSizeUnit = null;
+            
+            // Reset compression options
+            document.querySelectorAll('.compression-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            
+            // Reset custom inputs
+            customModalSize.value = '';
+            customModalUnit.value = 'KB';
+            
+            uploadArea.innerHTML = `
+                <div class="upload-icon">${config.icon}</div>
+                <h3>${config.uploadText}</h3>
+                <p>or click to browse files</p>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+        
+        function handleFileSelect(e) {
+            if (e.target.files.length) {
+                handleFile(e.target.files[0]);
+            }
+        }
+        
         function handleFile(file) {
+            const config = toolConfigs[currentTool];
+            
+            // Enhanced security validation
             try {
-                // Security validation
                 securitySystem.validateFile(file);
-                
-                // Crash protection check
                 crashProtection.canProcessFile(file);
-                
-                const operationId = securitySystem.generateSecureId();
+            } catch (error) {
+                alert(error.message);
+                return;
+            }
+            
+            currentFile = file;
+            
+            // Update UI to show selected file
+            uploadArea.innerHTML = `
+                <div class="upload-icon">✅</div>
+                <h3>${file.name}</h3>
+                <p>${formatFileSize(file.size)}</p>
+            `;
+            
+            // For compression tools, show file info
+            if (config.hasCompression) {
+                showFileInfo(file);
+                processBtn.disabled = false;
+                updateTargetSizeDisplay();
+            } else {
+                processBtn.disabled = false;
+            }
+        }
+        
+        function showFileInfo(file) {
+            const fileSizeBytes = file.size;
+            
+            // Show file info
+            fileInfo.style.display = 'block';
+            fileName.textContent = `File: ${file.name}`;
+            fileSize.textContent = `Size: ${formatFileSize(fileSizeBytes)}`;
+        }
+        
+        function updateTargetSizeDisplay() {
+            if (isCustomSize && customSizeValue && customSizeUnit) {
+                targetSize.textContent = `Target: ${customSizeValue}${customSizeUnit}`;
+                targetSize.style.color = 'var(--accent)';
+                targetSize.style.fontWeight = 'bold';
+            } else if (selectedCompressionSize) {
+                targetSize.textContent = `Target: ${selectedCompressionSize}KB`;
+                targetSize.style.color = 'var(--primary)';
+                targetSize.style.fontWeight = 'bold';
+            } else {
+                targetSize.textContent = 'Target: Not selected';
+                targetSize.style.color = 'var(--gray)';
+                targetSize.style.fontWeight = 'normal';
+            }
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        function processFile() {
+            if (!currentFile) return;
+            
+            const operationId = securitySystem.generateSecureId();
+            
+            try {
                 crashProtection.startOperation(operationId);
                 
-                // ... rest of file handling code
-                
-                // Remember to call crashProtection.endOperation(operationId) when done
+                // Simulate processing
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += 10;
+                    progressBar.style.width = `${progress}%`;
+                    
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        processBtn.disabled = true;
+                        downloadBtn.disabled = false;
+                        crashProtection.endOperation(operationId);
+                    }
+                }, 200);
                 
             } catch (error) {
-                showError(error.message);
+                alert(error.message);
                 crashProtection.endOperation(operationId);
             }
         }
-
-        // Legal Pages Content
+        
+        function downloadFile() {
+            alert('Download functionality would be implemented here with the processed file.');
+            // In a real implementation, this would trigger the download of the processed file
+        }
+        
+        // Section Navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Hide legal pages
+            document.querySelectorAll('.legal-page').forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            // Show the selected section
+            document.getElementById(sectionId).style.display = 'block';
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Legal Pages
         function showPrivacyPolicy() {
-            document.getElementById('legalContent').innerHTML = `
-                <h1>Privacy Policy</h1>
-                <p><strong>Last Updated:</strong> ${new Date().toLocaleDateString()}</p>
-                
-                <h2>1. Information We Don't Collect</h2>
-                <p>We believe in complete privacy. Here's what we <strong>DO NOT</strong> collect:</p>
-                <ul>
-                    <li>Your files or document content</li>
-                    <li>Personal identification information</li>
-                    <li>IP addresses or location data</li>
-                    <li>Browser fingerprints</li>
-                    <li>Usage analytics</li>
-                </ul>
-                
-                <h2>2. How We Protect You</h2>
-                <p>All file processing happens 100% in your browser using JavaScript. Your files never leave your computer and are never sent to our servers.</p>
-                
-                <h2>3. Data Processing</h2>
-                <p>Files are processed entirely in your browser's memory and are automatically deleted:</p>
-                <ul>
-                    <li>Immediately after processing completes</li>
-                    <li>When you close the browser tab</li>
-                    <li>After 5 minutes of inactivity</li>
-                </ul>
-                
-                <h2>4. Third-Party Services</h2>
-                <p>We use Google AdSense for advertising. They may collect data according to their privacy policy.</p>
-                
-                <h2>5. Contact</h2>
-                <p>For privacy concerns: privacy@pdfmasterpro.com</p>
-            `;
-            document.getElementById('legalModal').style.display = 'flex';
+            hideAllSections();
+            document.getElementById('privacy-policy').style.display = 'block';
         }
-
+        
         function showTerms() {
-            document.getElementById('legalContent').innerHTML = `
-                <h1>Terms of Service</h1>
-                <p><strong>Last Updated:</strong> ${new Date().toLocaleDateString()}</p>
-                
-                <h2>1. Acceptance of Terms</h2>
-                <p>By using PDF Master Pro, you agree to these terms.</p>
-                
-                <h2>2. Service Description</h2>
-                <p>PDF Master Pro provides client-side PDF processing tools. All processing occurs in your browser.</p>
-                
-                <h2>3. User Responsibilities</h2>
-                <p>You agree not to:</p>
-                <ul>
-                    <li>Upload malicious files</li>
-                    <li>Attempt to exploit the service</li>
-                    <li>Use automated tools to access the service</li>
-                    <li>Violate any laws</li>
-                </ul>
-                
-                <h2>4. Limitation of Liability</h2>
-                <p>We are not responsible for:</p>
-                <ul>
-                    <li>Data loss during processing</li>
-                    <li>Service interruptions</li>
-                    <li>Third-party content</li>
-                </ul>
-                
-                <h2>5. Modifications</h2>
-                <p>We may update these terms at any time.</p>
-            `;
-            document.getElementById('legalModal').style.display = 'flex';
+            hideAllSections();
+            document.getElementById('terms-of-service').style.display = 'block';
         }
-
-        function closeLegalModal() {
-            document.getElementById('legalModal').style.display = 'none';
+        
+        function showDisclaimer() {
+            hideAllSections();
+            document.getElementById('disclaimer').style.display = 'block';
         }
-
+        
+        function showCompliance() {
+            // For now, redirect to features section
+            showSection('features');
+        }
+        
+        function hideLegalPages() {
+            document.querySelectorAll('.legal-page').forEach(page => {
+                page.style.display = 'none';
+            });
+            // Show tools section by default
+            showSection('tools');
+        }
+        
+        function hideAllSections() {
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.querySelectorAll('.legal-page').forEach(page => {
+                page.style.display = 'none';
+            });
+        }
+        
         // Initialize AdSense
         (adsbygoogle = window.adsbygoogle || []).push({});
-
-        // Export for testing
-        window.crashProtection = crashProtection;
-        window.securitySystem = securitySystem;
+        
+        // Show tools section by default on page load
+        window.onload = function() {
+            showSection('tools');
+        };
     </script>
 </body>
 </html>
